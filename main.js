@@ -4,9 +4,12 @@ let promedio = 0;
 let cantidadPersonas;
 let lecturaCorrecta = false;
 let arrayPersonas = []
+
 let div = document.getElementById("divPromedio");
 let tituloPagina = document.getElementById("tituloPagina");
-let cartelPersona = document.createElement("div");
+
+let formularioInicial = document.getElementById("formularioInicial");
+
 
 tituloPagina.className = "resaltador";
 
@@ -41,16 +44,7 @@ for (let i = 0; i < arrayPersonas.length; i++) {
     console.log(`Nombre:  ${persona.nombre}`);
     console.log(`Edad:  ${persona.edad}`);
 
-    cartelPersona.innerHTML = `<div>
-                                <h3>Nombre: ${persona.nombre}</h3>
-                                <h3>Edad: ${persona.edad}</h3>
-                                <hr />
-                                </div>`;
-    
-    document.body.append(cartelPersona);
-
     suma = suma + persona.edad;
-    
 }
 
 if (arrayPersonas.length > 0) {
@@ -61,15 +55,38 @@ console.log(promedio);
 
 promedioEdades = suma / cantidadPersonas;
 
-alert(`El promedio de las edades ingresadas es: ${promedioEdades}`);
+for (const cartelPersona of arrayPersonas){
+    let cartelPersona2 = document.createElement("div");
+    
+    cartelPersona2.innerHTML = `<div>
+                                <h3>Nombre: ${cartelPersona.nombre}</h3>
+                                <h3>Edad: ${cartelPersona.edad}</h3>
+                                <hr />
+                                </div>`;
+    
+    document.body.append(cartelPersona2);
+    }
+
 divPromedio.innerHTML = `<h2>El promedio de las edades ingresadas es: ${promedioEdades}</h2>`;
 
 console.log(arrayPersonas);
 
-let mayoresDeEdad = arrayPersonas.filter(Persona => Persona.edad > 18);
+const mayoresDeEdad = arrayPersonas.filter(Persona => Persona.edad > 18);
 
 console.log("Los Mayores de edad son:");
 console.log(mayoresDeEdad);
+
+for (const mayoresDeEdad2 of mayoresDeEdad){
+let cuadroMayoresDeEdad = document.createElement("div");
+cuadroMayoresDeEdad.innerHTML = `<div>
+                                    <h3>Mayor de edad</h3>
+                                    <h4>Nombre: ${mayoresDeEdad2.nombre}</h4>
+                                    <h4>Edad: ${mayoresDeEdad2.edad}</h4>
+                                    <hr />
+                                 </div>`;
+
+document.body.append(cuadroMayoresDeEdad);
+}
 
 function leerEntero(message) {
     return parseInt(prompt(message));
