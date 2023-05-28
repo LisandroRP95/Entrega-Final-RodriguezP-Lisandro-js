@@ -10,6 +10,13 @@ let tituloPagina = document.getElementById("tituloPagina");
 
 let formularioInicial = document.getElementById("formularioInicial");
 
+formularioInicial.addEventListener("submit", validarFormulario);
+
+function validarFormulario(e){
+    e.preventDefault();
+    let formulario = e.target
+    console.log(formulario.children[0].value)
+}
 
 tituloPagina.className = "resaltador";
 
@@ -64,6 +71,8 @@ for (const cartelPersona of arrayPersonas){
                                 <hr />
                                 </div>`;
     
+    cartelPersona2.className = "listaPersona";
+
     document.body.append(cartelPersona2);
     }
 
@@ -84,6 +93,8 @@ cuadroMayoresDeEdad.innerHTML = `<div>
                                     <h4>Edad: ${mayoresDeEdad2.edad}</h4>
                                     <hr />
                                  </div>`;
+
+cuadroMayoresDeEdad.className = "mayoresDeEdad";
 
 document.body.append(cuadroMayoresDeEdad);
 }
