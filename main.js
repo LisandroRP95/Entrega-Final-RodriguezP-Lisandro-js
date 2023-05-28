@@ -1,104 +1,91 @@
-let promedioEdades = 1;
-let suma = 0;
-let promedio = 0;
-let cantidadPersonas;
-let lecturaCorrecta = false;
-let arrayPersonas = []
+let listaPersonas = [];
+let formulario = document.getElementById("formulario");
+let borrarButton = document.getElementById("borrar");
 
-let div = document.getElementById("divPromedio");
-let tituloPagina = document.getElementById("tituloPagina");
+formulario.addEventListener("submit", function (event) {
+    event.preventDefault();
 
-let formularioInicial = document.getElementById("formularioInicial");
+    let nombre = document.getElementById("nombre").value;
+    let edad = document.getElementById("edad").value;
 
-formularioInicial.addEventListener("submit", validarFormulario);
+    let newPersona = new Persona(nombre, parseInt(edad));
+    listaPersonas.push(newPersona);
 
-function validarFormulario(e){
-    e.preventDefault();
-    let formulario = e.target
-    console.log(formulario.children[0].value)
+    actualizar();
+
+});
+
+borrarButton.addEventListener("click", function () {
+    listaPersonas = [];
+    actualizar();
+});
+
+function actualizar() {
+    actualizarPromedio();
+    actualizarListado();
 }
 
-tituloPagina.className = "resaltador";
+function actualizarPromedio() {
+
+    let promedio = 0;
+
+    if (listaPersonas.length != 0) {
+
+        for (const persona of listaPersonas) {
+            promedio = promedio + persona.edad;
+        }
+        
+        promedio = promedio / listaPersonas.length;
+    }
+
+    let htmlPromedioObject = document.getElementById("promedio");
+    htmlPromedioObject.innerHTML = promedio;
+
+}
+
+function actualizarListado() {
+
+    let htmlListaObject = document.getElementById("lista-personas");
+    htmlListaObject.innerHTML = "";
+
+    for (const persona of listaPersonas) {
+
+        let nombre = persona.nombre;
+        let edad = persona.edad;
+
+        let divPersona = document.createElement("div");
+        divPersona.classList.add("persona");
+
+        if (persona.isMayorDeEdad()) {
+            divPersona.classList.add("mayor");
+        } else {
+            divPersona.classList.add("menor");
+        }
+
+        divPersona.innerHTML = `<label for="">Nombre: </label>
+                                <span>${nombre}</span>
+                                <br>
+                                <label for="">Edad: </label>
+                                <span>${edad}</span>`;
+
+
+        htmlListaObject.appendChild(divPersona);
+
+    }
+
+}
 
 class Persona {
 
-    constructor(nombre, edad){
+    constructor(nombre, edad) {
         this.nombre = nombre;
         this.edad = edad;
     }
 
-}
+    isMayorDeEdad() {
 
+        return (this.edad >= 18);
 
-while (!lecturaCorrecta){
-    cantidadPersonas = leerEntero("Ingrese cantidad de personas:");
-    
-    if(cantidadPersonas > 0){
-        lecturaCorrecta = true;
-    }
-}
-
-for(let i = 0; i < cantidadPersonas; i++){
-    let nombre = prompt("Ingrese nombre");
-    let edad = parseInt(prompt("Ingresar edad:"));
-    arrayPersonas.push(new Persona(nombre, edad));
-}
-
-for (let i = 0; i < arrayPersonas.length; i++) {
-    const persona = arrayPersonas[i];
-
-    console.log("----------------");
-    console.log(`Nombre:  ${persona.nombre}`);
-    console.log(`Edad:  ${persona.edad}`);
-
-    suma = suma + persona.edad;
-}
-
-if (arrayPersonas.length > 0) {
-    promedio = suma/arrayPersonas.length;
-}
-
-console.log(promedio);
-
-promedioEdades = suma / cantidadPersonas;
-
-for (const cartelPersona of arrayPersonas){
-    let cartelPersona2 = document.createElement("div");
-    
-    cartelPersona2.innerHTML = `<div>
-                                <h3>Nombre: ${cartelPersona.nombre}</h3>
-                                <h3>Edad: ${cartelPersona.edad}</h3>
-                                <hr />
-                                </div>`;
-    
-    cartelPersona2.className = "listaPersona";
-
-    document.body.append(cartelPersona2);
     }
 
-divPromedio.innerHTML = `<h2>El promedio de las edades ingresadas es: ${promedioEdades}</h2>`;
-
-console.log(arrayPersonas);
-
-const mayoresDeEdad = arrayPersonas.filter(Persona => Persona.edad > 18);
-
-console.log("Los Mayores de edad son:");
-console.log(mayoresDeEdad);
-
-for (const mayoresDeEdad2 of mayoresDeEdad){
-let cuadroMayoresDeEdad = document.createElement("div");
-cuadroMayoresDeEdad.innerHTML = `<div>
-                                    <h3>Mayor de edad</h3>
-                                    <h4>Nombre: ${mayoresDeEdad2.nombre}</h4>
-                                    <h4>Edad: ${mayoresDeEdad2.edad}</h4>
-                                    <hr />
-                                 </div>`;
-
-cuadroMayoresDeEdad.className = "mayoresDeEdad";
-
-document.body.append(cuadroMayoresDeEdad);
-}
-
-function leerEntero(message) {
-    return parseInt(prompt(message));
 }

@@ -1,14 +1,10 @@
-.resaltador{
-    background-color: darkcyan;
-    color: rgb(163, 199, 217);
+.persona {
+    padding: 10px;
+    border-bottom: solid 1px black;
 }
-
-.listaPersona{
-    background-color: coral;
-    color: #ffff;
+.mayor{
+    background-color: rgb(28, 168, 255);
 }
-
-.mayoresDeEdad{
-    background-color: crimson;
-    color: cornsilk;
+.menor{
+    background-color: beige;
 }

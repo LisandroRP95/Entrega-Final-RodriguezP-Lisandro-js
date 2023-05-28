@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,19 +8,40 @@
     <link rel="stylesheet" href="style.css">
     <title>Pre-Entrega3-RodriguezP-Lisandro</title>
 </head>
+
+
 <body id="body">
-    <h1 id="tituloPagina">Promedios Instantaneos</h1>
-
-    <div id="divPromedio"></div>
-
-    <form id="formularioInicial">
-        <input id="cantidadPersonas2" type="number"><br>
-        <button id="botonBorrar" type="reset">Borrar</button>
-        <input type="submit" value="Enviar">
-        <hr />
+    <h1 id="tituloPagina">Promedios de edades</h1>
 
 
+    <form id="formulario">
+        <label for="nombre">Nombre:</label><br>
+        <input type="text" name="nombre" id="nombre"><br>
+        <label for="edad">Edad:</label><br>
+        <input type="number" name="edad" id="edad">
+        <br>
+        <br>
+        <button type="submit" id="submit-form">Agregar</button>
     </form>
+
+    <h2>Edad promedio: <span id="promedio">0</span></h2>
+
+    <h3>Detalle personas:</h3>
+
+    <div id="lista-personas">
+        <!-- <div class="persona">
+            <label for="">Nombre: </label>
+            <span>Juan</span>
+            <br>
+            <label for="">Edad: </label>
+            <span>12</span>
+        </div> -->
+    </div>
+
+    <br>
+    <button id="borrar">Borrar lista</button>
+
     <script src="./main.js"></script>
 </body>
+
 </html>
