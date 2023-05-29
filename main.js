@@ -17,6 +17,9 @@ formulario.addEventListener("submit", function (event) {
 
     actualizar();
 
+    let listaPersonasJSON2 = JSON.parse(localStorage.getItem("listaPersonasServidorLocal"));
+
+    console.log(listaPersonasJSON2);
 });
 
 borrarButton.addEventListener("click", function () {
