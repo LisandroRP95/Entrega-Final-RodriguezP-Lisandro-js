@@ -11,6 +11,10 @@ formulario.addEventListener("submit", function (event) {
     let newPersona = new Persona(nombre, parseInt(edad));
     listaPersonas.push(newPersona);
 
+    let listaPersonasJSON = JSON.stringify(listaPersonas);
+    localStorage.setItem("listaPersonasServidorLocal", listaPersonasJSON);
+    sessionStorage.setItem("listaPersonasServidorSession", listaPersonasJSON);
+
     actualizar();
 
 });
@@ -19,6 +23,11 @@ borrarButton.addEventListener("click", function () {
     listaPersonas = [];
     actualizar();
 });
+
+let listaPersonasJSON = JSON.stringify(listaPersonas);
+localStorage.setItem("listaPersonasServidor", listaPersonasJSON);
+
+
 
 function actualizar() {
     actualizarPromedio();
