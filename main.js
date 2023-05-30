@@ -25,6 +25,11 @@ formulario.addEventListener("submit", function (event) {
 borrarButton.addEventListener("click", function () {
     listaPersonas = [];
     actualizar();
+
+    Swal.fire(
+            'Perfecto!',
+            'La lista de personas ha sido borrada!',
+    );
 });
 
 let listaPersonasJSON = JSON.stringify(listaPersonas);
