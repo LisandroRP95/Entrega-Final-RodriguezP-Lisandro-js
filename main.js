@@ -3,106 +3,125 @@ let formulario = document.getElementById("formulario");
 let borrarButton = document.getElementById("borrar");
 
 formulario.addEventListener("submit", function (event) {
-    event.preventDefault();
+  event.preventDefault();
 
-    let nombre = document.getElementById("nombre").value;
-    let edad = document.getElementById("edad").value;
+  let persona = getPersonaFromForm();
 
-    let newPersona = new Persona(nombre, parseInt(edad));
-    listaPersonas.push(newPersona);
+  enviarPersonaABackend(persona);
 
-    let listaPersonasJSON = JSON.stringify(listaPersonas);
-    localStorage.setItem("listaPersonasServidorLocal", listaPersonasJSON);
-    sessionStorage.setItem("listaPersonasServidorSession", listaPersonasJSON);
+  addPersona(persona);
 
-    actualizar();
+  // Agrego a local y session storage
+  let listaPersonasJSON = JSON.stringify(listaPersonas);
 
-    let listaPersonasJSON2 = JSON.parse(localStorage.getItem("listaPersonasServidorLocal"));
+  localStorage.setItem("listaPersonasServidorLocal", listaPersonasJSON);
+  sessionStorage.setItem("listaPersonasServidorSession", listaPersonasJSON);
 
-    console.log(listaPersonasJSON2);
+  let listaPersonasJSON2 = JSON.parse(
+    localStorage.getItem("listaPersonasServidorLocal")
+  );
+
+  console.log(listaPersonasJSON2);
 });
+
+function getPersonaFromForm() {
+  let nombre = document.getElementById("nombre").value;
+  let edad = document.getElementById("edad").value;
+  return new Persona(nombre, parseInt(edad));
+}
+
+function enviarPersonaABackend(persona) {
+  fetch("https://jsonplaceholder.typicode.com/posts", {
+    method: "POST",
+    body: JSON.stringify({
+      title: persona.nombre,
+      body: persona.edad,
+      userId: 1,
+    }),
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+    },
+  })
+    .then((response) => response.json())
+    .then((json) => {
+      Swal.fire({
+        icon: "success",
+        title: "Persona creada correctamente!",
+        text: JSON.stringify(json),
+      });
+    });
+}
+
+function addPersona(persona) {
+  listaPersonas.push(persona);
+  actualizar();
+}
 
 borrarButton.addEventListener("click", function () {
-    listaPersonas = [];
-    actualizar();
+  listaPersonas = [];
+  actualizar();
 
-    Swal.fire(
-            'Perfecto!',
-            'La lista de personas ha sido borrada!',
-    );
+  Swal.fire({
+    icon: "success",
+    title: "Perfecto!",
+    text: "La lista de personas ha sido borrada!",
+  });
 });
 
-let listaPersonasJSON = JSON.stringify(listaPersonas);
-localStorage.setItem("listaPersonasServidor", listaPersonasJSON);
-
-
-
 function actualizar() {
-    actualizarPromedio();
-    actualizarListado();
+  actualizarPromedio();
+  actualizarListado();
 }
 
 function actualizarPromedio() {
+  let promedio = 0;
 
-    let promedio = 0;
-
-    if (listaPersonas.length != 0) {
-
-        for (const persona of listaPersonas) {
-            promedio = promedio + persona.edad;
-        }
-        
-        promedio = promedio / listaPersonas.length;
+  if (listaPersonas.length != 0) {
+    for (const persona of listaPersonas) {
+      promedio = promedio + persona.edad;
     }
 
-    let htmlPromedioObject = document.getElementById("promedio");
-    htmlPromedioObject.innerHTML = promedio;
+    promedio = promedio / listaPersonas.length;
+  }
 
+  let htmlPromedioObject = document.getElementById("promedio");
+  htmlPromedioObject.innerHTML = promedio;
 }
 
 function actualizarListado() {
+  let htmlListaObject = document.getElementById("lista-personas");
+  htmlListaObject.innerHTML = "";
 
-    let htmlListaObject = document.getElementById("lista-personas");
-    htmlListaObject.innerHTML = "";
+  for (const persona of listaPersonas) {
+    let nombre = persona.nombre;
+    let edad = persona.edad;
 
-    for (const persona of listaPersonas) {
+    let divPersona = document.createElement("div");
+    divPersona.classList.add("persona");
 
-        let nombre = persona.nombre;
-        let edad = persona.edad;
+    if (persona.isMayorDeEdad()) {
+      divPersona.classList.add("mayor");
+    } else {
+      divPersona.classList.add("menor");
+    }
 
-        let divPersona = document.createElement("div");
-        divPersona.classList.add("persona");
-
-        if (persona.isMayorDeEdad()) {
-            divPersona.classList.add("mayor");
-        } else {
-            divPersona.classList.add("menor");
-        }
-
-        divPersona.innerHTML = `<label for="">Nombre: </label>
+    divPersona.innerHTML = `<label for="">Nombre: </label>
                                 <span>${nombre}</span>
                                 <br>
                                 <label for="">Edad: </label>
                                 <span>${edad}</span>`;
 
-
-        htmlListaObject.appendChild(divPersona);
-
-    }
-
+    htmlListaObject.appendChild(divPersona);
+  }
 }
 
 class Persona {
+  constructor(nombre, edad) {
+    this.nombre = nombre;
+    this.edad = edad;
+  }
 
-    constructor(nombre, edad) {
-        this.nombre = nombre;
-        this.edad = edad;
-    }
-
-    isMayorDeEdad() {
-
-        return (this.edad >= 18);
-
-    }
-
+  isMayorDeEdad() {
+    return this.edad >= 18;
+  }
 }
