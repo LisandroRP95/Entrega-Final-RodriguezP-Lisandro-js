@@ -1,4 +1,3 @@
-let listaPersonas = [];
 let formulario = document.getElementById("formulario");
 let borrarButton = document.getElementById("borrar");
 
@@ -23,6 +22,34 @@ formulario.addEventListener("submit", function (event) {
 
   console.log(listaPersonasJSON2);
 });
+
+class Persona {
+  constructor(nombre, edad) {
+    this.nombre = nombre;
+    this.edad = edad;
+  }
+
+  isMayorDeEdad() {
+    return this.edad >= 18;
+  }
+}
+
+let listaPersonas = getStorageDataIfExist();
+actualizar();
+
+function getStorageDataIfExist(){
+  
+  let data = JSON.parse(localStorage.getItem("listaPersonasServidorLocal"));
+
+  let dataArray = [];
+
+  if (data != null) {
+    dataArray = data.map(p => new Persona(p.nombre, p.edad));
+  }
+
+  return dataArray
+
+}
 
 function getPersonaFromForm() {
   let nombre = document.getElementById("nombre").value;
@@ -60,6 +87,7 @@ function addPersona(persona) {
 
 borrarButton.addEventListener("click", function () {
   listaPersonas = [];
+  localStorage.clear();
   actualizar();
 
   Swal.fire({
@@ -113,16 +141,5 @@ function actualizarListado() {
                                 <span>${edad}</span>`;
 
     htmlListaObject.appendChild(divPersona);
-  }
-}
-
-class Persona {
-  constructor(nombre, edad) {
-    this.nombre = nombre;
-    this.edad = edad;
-  }
-
-  isMayorDeEdad() {
-    return this.edad >= 18;
   }
 }
