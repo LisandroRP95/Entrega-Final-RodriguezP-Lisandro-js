@@ -1,6 +1,21 @@
+body{
+    background-color: rgba(121, 136, 171, 0.803);
+    text-align: center;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+h1{
+    color: whitesmoke;
+    font-weight: 0;
+}
+
+.espacioForm{
+    margin-top: 20px;
+}
+
 .persona {
     padding: 10px;
-    border-bottom: solid 1px black;
+    border-radius: solid 10px black;
 }
 .mayor{
     background-color: rgb(28, 168, 255);

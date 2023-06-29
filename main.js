@@ -47,8 +47,9 @@ function enviarPersonaABackend(persona) {
       Swal.fire({
         icon: "success",
         title: "Persona creada correctamente!",
-        text: JSON.stringify(json),
+        text: `Nombre: ${nombre.value} Edad: ${edad.value}`,
       });
+      console.log(JSON.stringify(json));
     });
 }
 
